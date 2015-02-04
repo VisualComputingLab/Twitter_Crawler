@@ -16,9 +16,7 @@ POST http://TOMCAT_SERVER:8080/Twitter_Crawler/resources/crawl
 Content-Type: application/json
 
   {
-
     "command": "create",
-
     "twitter":
     {
       "consumerKey": CONSUMER_KEY,
@@ -26,13 +24,13 @@ Content-Type: application/json
       "accessToken": ACCESS_TOKEN, 
       "accessTokenSecret": ACCESS_TOKEN_SECRET
     },
-  "rabbit": 
-  {
-    "host": RABBIT_HOST_IP,
-    "queue": RABBIT_QUEUE_NAME_FOR_STORING_RESULTS
-  },
-  "keywords": ["thessaloniki", "salonica", "saloniki", "θεσσαλονίκη", "θεσσαλονικη", "selanik"]
-}
+    "rabbit": 
+    {
+      "host": RABBIT_HOST_IP,
+      "queue": RABBIT_QUEUE_NAME_FOR_STORING_RESULTS
+    },
+    "keywords": ["thessaloniki", "salonica", "saloniki", "θεσσαλονίκη", "θεσσαλονικη", "selanik"]
+  }
 
 The service can be stopped as follows:
 
@@ -40,10 +38,7 @@ POST http://TOMCAT_SERVER:8080/Twitter_Crawler/resources/crawl
 
 Content-Type: application/json
 
-{
-
-"command": "remove",
-
-"receipt": "last"
-
-}
+  {
+    "command": "remove",
+    "receipt": "last"
+  }
