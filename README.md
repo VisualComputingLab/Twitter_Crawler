@@ -16,6 +16,7 @@ POST http://TOMCAT_SERVER:8080/Twitter_Crawler/resources/crawl
 Content-Type: application/json
 
   {
+  
     "command": "create",
     "twitter":
     {
