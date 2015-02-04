@@ -1,7 +1,9 @@
 
+#Twitter_Crawler
+
 A java web crawler wrapping the Twitter Streaming API, written in Netbeans 7.3.1
   
-Prerequisites:
+##Prerequisites:
 
 - A tomcat server (>= 7) for deploying the service (http://tomcat.apache.org/download-70.cgi).
 - A RabbitMQ server (>= 2.7.1) for storing the results (http://www.rabbitmq.com/).
@@ -9,7 +11,9 @@ Prerequisites:
 
 The project can be directly opened in Netbeans, built and deployed on a Tomcat server.
 
-Then, the service can be started as follows:
+## Usage
+
+The deployed service can be started as follows:
 
 POST http://TOMCAT_SERVER:8080/Twitter_Crawler/resources/crawl
 
@@ -40,6 +44,7 @@ POST http://TOMCAT_SERVER:8080/Twitter_Crawler/resources/crawl
 Content-Type: application/json
 
   {
+  
     "command": "remove",
     "receipt": "last"
   }
