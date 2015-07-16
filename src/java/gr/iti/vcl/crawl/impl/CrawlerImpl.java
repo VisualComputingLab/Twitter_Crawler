@@ -144,9 +144,20 @@ public class CrawlerImpl {
                 
                 String rabbitHost = jsonObject.getJSONObject("rabbit").getString("host");
                 String rabbitQueue = jsonObject.getJSONObject("rabbit").getString("queue");
-                
+                String rabbitUserName = jsonObject.getJSONObject("rabbit").getString("username");
+                String rabbitPassword = jsonObject.getJSONObject("rabbit").getString("password");
+                String rabbitVirtualHost = jsonObject.getJSONObject("rabbit").getString("vhost");
+                //String rabbitHostName = jsonObject.getJSONObject("rabbit").getString("hostname");
+                //String rabbitPortNumber = jsonObject.getJSONObject("rabbit").getString("port");
+
                 ConnectionFactory factory = new ConnectionFactory();
                 factory.setHost(rabbitHost);
+ 
+                factory.setUsername(rabbitUserName);
+                factory.setPassword(rabbitPassword);
+                factory.setVirtualHost(rabbitVirtualHost);
+                //factory.setHost(rabbitHostName);
+                //factory.setPort(rabbitPortNumber);
                 Connection connection;
                 Channel channel;
                 

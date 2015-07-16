@@ -6,7 +6,7 @@
         <init-param>
             <description>Multiple packages, separated by semicolon(;), can be specified in param-value</description>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>gr.iti.cubrik.crawl.rest</param-value>
+            <param-value>gr.iti.vcl.crawl.rest</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
