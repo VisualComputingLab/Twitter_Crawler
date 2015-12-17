@@ -6,6 +6,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeoutException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -68,7 +69,6 @@ public class CrawlerImpl {
             if (command.equals(TWITTER_STREAM_COMMAND_CREATE))
             {
                 // create twitter configuration
-                
                 String consumerKey = jsonObject.getJSONObject("twitter").getString("consumerKey");
                 String consumerSecret = jsonObject.getJSONObject("twitter").getString("consumerSecret");
                 String accessToken = jsonObject.getJSONObject("twitter").getString("accessToken");
@@ -140,15 +140,13 @@ public class CrawlerImpl {
                     return resultObject;
                 }
                 
-                // create queue
-                
+                // create queue                
                 String rabbitHost = jsonObject.getJSONObject("rabbit").getString("host");
                 String rabbitQueue = jsonObject.getJSONObject("rabbit").getString("queue");
                 String rabbitUserName = jsonObject.getJSONObject("rabbit").getString("username");
                 String rabbitPassword = jsonObject.getJSONObject("rabbit").getString("password");
                 String rabbitVirtualHost = jsonObject.getJSONObject("rabbit").getString("vhost");
-                //String rabbitHostName = jsonObject.getJSONObject("rabbit").getString("hostname");
-                //String rabbitPortNumber = jsonObject.getJSONObject("rabbit").getString("port");
+                int rabbitPortNumber = jsonObject.getJSONObject("rabbit").getInt("port");
 
                 ConnectionFactory factory = new ConnectionFactory();
                 factory.setHost(rabbitHost);
@@ -156,16 +154,16 @@ public class CrawlerImpl {
                 factory.setUsername(rabbitUserName);
                 factory.setPassword(rabbitPassword);
                 factory.setVirtualHost(rabbitVirtualHost);
-                //factory.setHost(rabbitHostName);
-                //factory.setPort(rabbitPortNumber);
+                factory.setHost(rabbitHost);
+                factory.setPort(rabbitPortNumber);
                 Connection connection;
-                Channel channel;
+                Channel channel = null;
                 
                 try 
                 {
                     connection = factory.newConnection();
                     channel = connection.createChannel();
-                    channel.queueDeclare(rabbitQueue, false, false, false, null);
+                    channel.queueDeclare(rabbitQueue, true, false, false, null);
                     // for fair dispatch
                     channel.basicQos(1);
                     activeConnections.put(receipt, connection);
@@ -175,6 +173,14 @@ public class CrawlerImpl {
                     err("IOException during queue creation: " + ex);
                     resultObject.put("Status", "Error");
                     resultObject.put("Message", "IOException during queue creation: " + ex);
+                    return resultObject;
+                } 
+                catch (TimeoutException ex) 
+                {
+                    //Logger.getLogger(CrawlerImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    err("TimeoutException during queue creation: " + ex);
+                    resultObject.put("Status", "Error");
+                    resultObject.put("Message", "TimeoutException during queue creation: " + ex);
                     return resultObject;
                 }
                 
